@@ -1,0 +1,100 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "title": "service_a.proto",
+    "version": "version not set"
+  },
+  "tags": [
+    {
+      "name": "ServiceA"
+    }
+  ],
+  "consumes": [
+    "application/json"
+  ],
+  "produces": [
+    "application/json"
+  ],
+  "paths": {
+    "/health": {
+      "post": {
+        "summary": "Health check of the microservice for internal use.",
+        "operationId": "ServiceA_GetHealth",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/protoHealthResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/protoHealthRequest"
+            }
+          }
+        ],
+        "tags": [
+          "ServiceA"
+        ]
+      }
+    }
+  },
+  "definitions": {
+    "protoHealthRequest": {
+      "type": "object"
+    },
+    "protoHealthResponse": {
+      "type": "object",
+      "properties": {
+        "health": {
+          "type": "boolean",
+          "description": "Service's condition."
+        },
+        "time": {
+          "type": "string",
+          "format": "int64",
+          "description": "UNIX timestamp of the request execution time."
+        }
+      }
+    },
+    "protobufAny": {
+      "type": "object",
+      "properties": {
+        "@type": {
+          "type": "string"
+        }
+      },
+      "additionalProperties": {}
+    },
+    "rpcStatus": {
+      "type": "object",
+      "properties": {
+        "code": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "message": {
+          "type": "string"
+        },
+        "details": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "$ref": "#/definitions/protobufAny"
+          }
+        }
+      }
+    }
+  }
+}
